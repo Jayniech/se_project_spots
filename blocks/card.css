@@ -10,15 +10,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 12px 0 0;
 }
 .card__title {
-  margin: 12px 0 0;
+  margin: 0;
   font-size: 20px;
   line-height: 1.2;
   font-weight: 500;
+  max-width: 353px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  color: #212121;
 }
 
 .card__like-btn {
@@ -33,6 +36,7 @@
 
 .card__like-btn:hover {
   opacity: 1;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 627px) {
@@ -42,6 +46,9 @@
 
   .card__title {
     margin-top: 0;
+    max-width: 95px;
+    font-size: 16px;
+    line-height: 1;
   }
 
   .card__content {
