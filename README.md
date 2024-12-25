@@ -8,6 +8,8 @@ This is the third project of the Software Engineering program at TripleTen. It w
 - Figma
 - Images
 
+- [Link to video](https://drive.google.com/file/d/1eYkgaP9lEjbc-MYE7l_9le1EDcQ7HZI1/view?usp=drive_link)
+
 **Intro**
 
 This project is made so all the elements are displayed correctly on popular screen sizes. To do this, I used the grid property to display thee card elements into columns and rows. I also used the flex box property to arange the header. In order to make the webpage responsive, I used media queries to adjust elements as the screen size changes.
