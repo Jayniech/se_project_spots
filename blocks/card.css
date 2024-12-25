@@ -46,12 +46,9 @@
 
   .card__title {
     margin-top: 0;
-    max-width: 95px;
+    max-width: 250px;
+    /*Now the bottom of my letters are cropping and  I don't know how to fix this*/
     font-size: 16px;
     line-height: 1;
-  }
-
-  .card__content {
-    margin: 12px 0 0;
   }
 }
