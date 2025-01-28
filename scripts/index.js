@@ -38,7 +38,7 @@ const editModalNameInput = editModalProfile.querySelector(
 const editModalDescriptionInput = editModalProfile.querySelector(
   "#profile-description-input"
 );
-const editModalFormElement = editModalProfile.querySelector(".modal__form");
+const profileForm = document.forms["profile-form"];
 
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
@@ -54,6 +54,7 @@ function getCardElement(data) {
 
   cardNameElement.textContent = data.name;
   cardImageElement.src = data.link;
+  cardImageElement.alt = data.name;
 
   return cardElement;
 }
@@ -77,7 +78,7 @@ function handleEditFormSubmit(evt) {
 
 profileEditButton.addEventListener("click", openModal);
 editModalCloseButton.addEventListener("click", closeModal);
-editModalFormElement.addEventListener("submit", handleEditFormSubmit);
+profileForm.addEventListener("submit", handleEditFormSubmit);
 
 for (let i = 0; i < initialCards.length; i++) {
   const cardElement = getCardElement(initialCards[i]);

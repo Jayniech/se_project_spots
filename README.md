@@ -22,12 +22,10 @@ This project is made so all the elements are displayed correctly on popular scre
 
 **Images**
 
-![alt text](avatar.png)
-![alt text](val-thorens.png)
-![alt text](restaurant-terrace.png)
-![alt text](outdoor-cafe.png)
-![alt text](long-bridge.png)
-![alt text](tunnel.png)
-![alt text](mountain-house.png)
-![alt text](desktop-view.PNG)
-![alt text](mobile-view.PNG)
+![alt text](./images/avatar.jpg)
+![alt text](./images/1-photo-by-moritz-feldmann-from-pexels.jpg)
+![alt text](./images/2-photo-by-ceiline-from-pexels.jpg)
+![alt text](./images/3-photo-by-tubanur-dogan-from-pexels.jpg)
+![alt text](./images/4-photo-by-maurice-laschet-from-pexels.jpg)
+![alt text](./images/5-photo-by-van-anh-nguyen-from-pexels.jpg)
+![alt text](./images/6-photo-by-moritz-feldmann-from-pexels.jpg)
