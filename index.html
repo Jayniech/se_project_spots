@@ -63,6 +63,7 @@
                 type="text"
                 placeholder="Type your name"
                 class="modal__input"
+                name="name"
               />
             </label>
             <label for="profile-description-input" class="modal__label">
@@ -72,10 +73,46 @@
                 type="text"
                 placeholder="Describe yourself"
                 class="modal__input"
+                name="description"
               />
             </label>
             <button
               id="profile-submit-button"
+              type="submit"
+              class="modal__submit-btn"
+            >
+              Save
+            </button>
+          </form>
+        </div>
+      </div>
+      <div id="add-post-modal" class="modal">
+        <div class="modal__container">
+          <button type="button" class="modal__close-btn"></button>
+          <h2 class="modal__title">New post</h2>
+          <form id="add-post-form" name="new-post" class="modal__form">
+            <label for="add-post-link-input" class="modal__label">
+              Image link
+              <input
+                id="add-post-link-input"
+                type="url"
+                placeholder="Paste a link to the picture"
+                class="modal__input"
+                name="link"
+              />
+            </label>
+            <label for="add-post-caption-input" class="modal__label">
+              Caption
+              <input
+                id="add-post-caption-input"
+                type="text"
+                placeholder="Type your caption"
+                class="modal__input"
+                name="caption"
+              />
+            </label>
+            <button
+              id="post-submit-button"
               type="submit"
               class="modal__submit-btn"
             >
