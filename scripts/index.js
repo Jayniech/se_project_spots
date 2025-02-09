@@ -28,7 +28,7 @@ const initialCards = [
 const profileEditButton = document.querySelector(".profile__edit-btn");
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
-const profileForm = editModalProfile.querySelector(".modal__form");
+const profileForm = document.forms["profile-form"];
 
 const addPostButton = document.querySelector(".profile__add-btn");
 
@@ -86,8 +86,9 @@ function handleEditFormSubmit(evt) {
 
 function handleAddPostSubmit(evt) {
   evt.preventDefault();
-  console.log(addPostLinkInput.value);
-  console.log(addPostCaptionInput.value);
+  const inputValues = { name: "", link: "" };
+  const cardElement = getCardElement(inputValues);
+  cardsList.prepend(cardElement);
   closeModal(addPostModal);
 }
 
