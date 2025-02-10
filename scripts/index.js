@@ -60,10 +60,15 @@ function getCardElement(data) {
 
   const cardNameElement = cardElement.querySelector(".card__title");
   const cardImageElement = cardElement.querySelector(".card__image");
+  const postLikeButton = cardElement.querySelector(".card__like-btn");
 
   cardNameElement.textContent = data.name;
   cardImageElement.src = data.link;
   cardImageElement.alt = data.name;
+
+  postLikeButton.addEventListener("click", () => {
+    postLikeButton.classList.toggle("card__like-btn_liked");
+  });
 
   return cardElement;
 }
