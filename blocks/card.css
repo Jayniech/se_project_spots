@@ -39,6 +39,16 @@
   cursor: pointer;
 }
 
+.card__like-btn_liked {
+  background-image: url(../images/liked-icon.svg);
+  opacity: 1;
+  transition: background-image 0.35s;
+}
+
+.card__like-btn_liked:hover {
+  background-image: url(../images/liked-icon_hover.svg);
+}
+
 @media screen and (max-width: 627px) {
   .card__image {
     height: 288px;
