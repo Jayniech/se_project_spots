@@ -47,6 +47,8 @@
   background-image: url(../images/liked-icon.svg);
   opacity: 1;
   transition: background-image 0.35s;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .card__like-btn_liked:hover {
@@ -63,6 +65,8 @@
   top: 10px;
   right: 10px;
   background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .card__delete-btn:hover {
