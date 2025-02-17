@@ -52,6 +52,10 @@ const addPostCaptionInput = addPostModal.querySelector(
   "#add-post-caption-input"
 );
 const addPostForm = addPostModal.querySelector(".modal__form");
+const previewModal = document.querySelector("#preview-modal");
+const previewImage = previewModal.querySelector(".modal__image");
+const previewCaption = previewModal.querySelector(".modal__caption");
+const previewModalCloseButton = previewModal.querySelector(".modal__close-btn");
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -74,6 +78,13 @@ function getCardElement(data) {
   postDeleteButton.addEventListener("click", () => {
     const postItem = postDeleteButton.closest(".card");
     postItem.remove();
+  });
+
+  cardImageElement.addEventListener("click", () => {
+    openModal(previewModal);
+    previewImage.src = data.link;
+    previewImage.alt = data.name;
+    previewCaption.textContent = data.name;
   });
 
   return cardElement;
@@ -121,6 +132,10 @@ addPostButton.addEventListener("click", () => {
 
 addPostCloseButton.addEventListener("click", () => {
   closeModal(addPostModal);
+});
+
+previewModalCloseButton.addEventListener("click", () => {
+  closeModal(previewModal);
 });
 
 profileForm.addEventListener("submit", handleEditFormSubmit);
