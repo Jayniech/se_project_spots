@@ -37,8 +37,6 @@ const profileForm = document.forms["profile-form"];
 const addPostButton = document.querySelector(".profile__add-btn");
 
 const editModalProfile = document.querySelector("#edit-profile-modal");
-const editModalCloseButton =
-  editModalProfile.querySelector(".modal__close-btn");
 const editModalNameInput = editModalProfile.querySelector(
   "#profile-name-input"
 );
@@ -50,16 +48,15 @@ const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
 const addPostModal = document.querySelector("#add-post-modal");
-const addPostCloseButton = addPostModal.querySelector(".modal__close-btn");
 const addPostLinkInput = addPostModal.querySelector("#add-post-link-input");
 const addPostCaptionInput = addPostModal.querySelector(
   "#add-post-caption-input"
 );
-const addPostForm = addPostModal.querySelector(".modal__form");
+const addPostForm = document.forms["add-post-form"];
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImage = previewModal.querySelector(".modal__image");
 const previewModalCaption = previewModal.querySelector(".modal__caption");
-const previewModalCloseButton = previewModal.querySelector(".modal__close-btn");
+const closeButtons = document.querySelectorAll(".modal__close-btn");
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -80,8 +77,7 @@ function getCardElement(data) {
   });
 
   postDeleteButton.addEventListener("click", () => {
-    const postItem = postDeleteButton.closest(".card");
-    postItem.remove();
+    cardElement.remove();
   });
 
   cardImageElement.addEventListener("click", () => {
@@ -117,6 +113,7 @@ function handleAddPostSubmit(evt) {
   };
   const cardElement = getCardElement(inputValues);
   cardsList.prepend(cardElement);
+  evt.target.reset();
   closeModal(addPostModal);
 }
 
@@ -126,21 +123,15 @@ profileEditButton.addEventListener("click", () => {
   openModal(editModalProfile);
 });
 
-editModalCloseButton.addEventListener("click", () => {
-  closeModal(editModalProfile);
-});
-
 addPostButton.addEventListener("click", () => {
   openModal(addPostModal);
 });
 
-addPostCloseButton.addEventListener("click", () => {
-  closeModal(addPostModal);
+closeButtons.forEach((button) => {
+  const popup = button.closest(".modal");
+  button.addEventListener("click", () => closeModal(popup));
 });
-
-previewModalCloseButton.addEventListener("click", () => {
-  closeModal(previewModal);
-});
+//I really like how this saves so many lines of code.
 
 profileForm.addEventListener("submit", handleEditFormSubmit);
 addPostForm.addEventListener("submit", handleAddPostSubmit);
