@@ -33,9 +33,6 @@ const profileEditButton = document.querySelector(".profile__edit-btn");
 const profileName = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const profileForm = document.forms["profile-form"];
-
-const addPostButton = document.querySelector(".profile__add-btn");
-
 const editModalProfile = document.querySelector("#edit-profile-modal");
 const editModalNameInput = editModalProfile.querySelector(
   "#profile-name-input"
@@ -43,16 +40,17 @@ const editModalNameInput = editModalProfile.querySelector(
 const editModalDescriptionInput = editModalProfile.querySelector(
   "#profile-description-input"
 );
-
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
+const addPostButton = document.querySelector(".profile__add-btn");
 const addPostModal = document.querySelector("#add-post-modal");
 const addPostLinkInput = addPostModal.querySelector("#add-post-link-input");
 const addPostCaptionInput = addPostModal.querySelector(
   "#add-post-caption-input"
 );
 const addPostForm = document.forms["add-post-form"];
+const addPostSubmitButton = addPostForm.querySelector("#post-submit-button");
 const previewModal = document.querySelector("#preview-modal");
 const previewModalImage = previewModal.querySelector(".modal__image");
 const previewModalCaption = previewModal.querySelector(".modal__caption");
@@ -115,16 +113,19 @@ function handleAddPostSubmit(evt) {
   cardsList.prepend(cardElement);
   evt.target.reset();
   closeModal(addPostModal);
+  disabledButton(formSubmitButton);
 }
 
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileName.textContent;
   editModalDescriptionInput.value = profileDescription.textContent;
   openModal(editModalProfile);
+  resetValidation(profileForm, [editModalNameInput, editModalDescriptionInput]);
 });
 
 addPostButton.addEventListener("click", () => {
   openModal(addPostModal);
+  resetValidation(addPostForm, [addPostLinkInput, addPostCaptionInput]);
 });
 
 closeButtons.forEach((button) => {
