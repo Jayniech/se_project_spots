@@ -122,7 +122,7 @@
   color: #212121;
 }
 
-.modal__input-error {
+.modal__error_visible {
   display: block;
   color: rgba(255, 0, 0, 0.7);
 }

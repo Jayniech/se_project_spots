@@ -56,6 +56,8 @@ const previewModalImage = previewModal.querySelector(".modal__image");
 const previewModalCaption = previewModal.querySelector(".modal__caption");
 const closeButtons = document.querySelectorAll(".modal__close-btn");
 
+const modals = document.querySelectorAll(".modal");
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
@@ -90,10 +92,12 @@ function getCardElement(data) {
 
 function openModal(modal) {
   modal.classList.add("modal_opened");
+  document.addEventListener("keydown", keyHandler);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", keyHandler);
 }
 
 function handleEditFormSubmit(evt) {
@@ -113,19 +117,46 @@ function handleAddPostSubmit(evt) {
   cardsList.prepend(cardElement);
   evt.target.reset();
   closeModal(addPostModal);
-  disabledButton(formSubmitButton);
+  disabledButton(addPostSubmitButton, settings);
 }
+
+function keyHandler(evt) {
+  if (evt.key === "Escape") {
+    //Need to find the current opened modal in order to close it.
+    const openedModal = document.querySelector(".modal_opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+}
+
+modals.forEach((modalElement) => {
+  modalElement.addEventListener("click", (evt) => {
+    //Select the element that has the .modal class, not the entire modal.
+    if (evt.target === modalElement) {
+      closeModal(modalElement);
+    }
+  });
+});
 
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileName.textContent;
   editModalDescriptionInput.value = profileDescription.textContent;
   openModal(editModalProfile);
-  resetValidation(profileForm, [editModalNameInput, editModalDescriptionInput]);
+  resetValidation(
+    profileForm,
+    [editModalNameInput, editModalDescriptionInput],
+    settings
+  );
 });
 
 addPostButton.addEventListener("click", () => {
   openModal(addPostModal);
-  resetValidation(addPostForm, [addPostLinkInput, addPostCaptionInput]);
+  resetValidation(
+    addPostForm,
+    [addPostLinkInput, addPostCaptionInput],
+    settings
+  );
 });
 
 closeButtons.forEach((button) => {
