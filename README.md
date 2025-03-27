@@ -23,9 +23,9 @@ This project is made so all the elements are displayed correctly on popular scre
 **Images**
 
 ![alt text](./images/avatar.jpg)
-![alt text](./images/1-photo-by-moritz-feldmann-from-pexels.jpg)
-![alt text](./images/2-photo-by-ceiline-from-pexels.jpg)
-![alt text](./images/3-photo-by-tubanur-dogan-from-pexels.jpg)
-![alt text](./images/4-photo-by-maurice-laschet-from-pexels.jpg)
-![alt text](./images/5-photo-by-van-anh-nguyen-from-pexels.jpg)
-![alt text](./images/6-photo-by-moritz-feldmann-from-pexels.jpg)
+![alt text](./images/demos/1-photo-by-moritz-feldmann-from-pexels.jpg)
+![alt text](./images/demos/2-photo-by-ceiline-from-pexels.jpg)
+![alt text](./images/demos/3-photo-by-tubanur-dogan-from-pexels.jpg)
+![alt text](./images/demos/4-photo-by-maurice-laschet-from-pexels.jpg)
+![alt text](./images/demos/5-photo-by-van-anh-nguyen-from-pexels.jpg)
+![alt text](./images/demos/6-photo-by-moritz-feldmann-from-pexels.jpg)
