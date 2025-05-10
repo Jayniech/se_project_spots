@@ -48,13 +48,19 @@ const api = new Api({
   },
 });
 
+// Destructure the second item in the callback of the .then()
 api
-  .getInitialCards()
-  .then((cards) => {
+  .getAppInfo()
+  .then(([cards]) => {
+    console.log(cards);
     cards.forEach((item) => {
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
+
+    // Handle the user's information
+    // - set the src of the avatar image
+    // - set the textContent of both the text elements
   })
   .catch((err) => {
     console.error(err);
@@ -140,6 +146,10 @@ function handleEditFormSubmit(evt) {
 
 function handleAddPostSubmit(evt) {
   evt.preventDefault();
+  api
+    .editUserInfo({ name: "test", about: "test" })
+    .then((data) => {})
+    .catch(console.error);
   const inputValues = {
     name: addPostCaptionInput.value,
     link: addPostLinkInput.value,
