@@ -1,4 +1,8 @@
-import { enableValidation, settings } from "../scripts/validation.js";
+import {
+  enableValidation,
+  settings,
+  resetValidation,
+} from "../scripts/validation.js";
 import "./index.css";
 import avatarImg from "../images/avatar.jpg";
 import logoImg from "../images/logo.svg";
@@ -51,12 +55,17 @@ const api = new Api({
 // Destructure the second item in the callback of the .then()
 api
   .getAppInfo()
-  .then(([cards]) => {
+  .then(([cards, user]) => {
     console.log(cards);
+    console.log(user);
     cards.forEach((item) => {
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
+
+    //user.forEach((item) => {
+    //
+    // });
 
     // Handle the user's information
     // - set the src of the avatar image
@@ -139,17 +148,21 @@ function closeModal(modal) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  profileName.textContent = editModalNameInput.value;
-  profileDescription.textContent = editModalDescriptionInput.value;
-  closeModal(editModalProfile);
+  api
+    .editUserInfo({
+      name: editModalNameInput.value,
+      about: editModalDescriptionInput.value,
+    })
+    .then((data) => {
+      profileName.textContent = data.editModalNameInput;
+      profileDescription.textContent = data.editModalDescriptionInput;
+      closeModal(editModalProfile);
+    })
+    .catch(console.error);
 }
 
 function handleAddPostSubmit(evt) {
   evt.preventDefault();
-  api
-    .editUserInfo({ name: "test", about: "test" })
-    .then((data) => {})
-    .catch(console.error);
   const inputValues = {
     name: addPostCaptionInput.value,
     link: addPostLinkInput.value,
