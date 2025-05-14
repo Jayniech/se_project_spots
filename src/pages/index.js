@@ -52,24 +52,19 @@ const api = new Api({
   },
 });
 
-// Destructure the second item in the callback of the .then()
 api
   .getAppInfo()
   .then(([cards, user]) => {
     console.log(cards);
-    console.log(user);
+    console.log("User data:", user);
     cards.forEach((item) => {
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
 
-    //user.forEach((item) => {
-    //
-    // });
-
-    // Handle the user's information
-    // - set the src of the avatar image
-    // - set the textContent of both the text elements
+    avatar.src = user.avatar;
+    profileName.textContent = user.name;
+    profileDescription.textContent = user.about;
   })
   .catch((err) => {
     console.error(err);
@@ -154,8 +149,8 @@ function handleEditFormSubmit(evt) {
       about: editModalDescriptionInput.value,
     })
     .then((data) => {
-      profileName.textContent = data.editModalNameInput;
-      profileDescription.textContent = data.editModalDescriptionInput;
+      profileName.textContent = data.name;
+      profileDescription.textContent = data.about;
       closeModal(editModalProfile);
     })
     .catch(console.error);
