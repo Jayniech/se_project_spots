@@ -5,6 +5,7 @@ import {
 } from "../scripts/validation.js";
 import "./index.css";
 import avatarImg from "../images/avatar.jpg";
+console.log("Local avatar path:", avatarImg);
 import logoImg from "../images/logo.svg";
 import Api from "../utils/Api.js";
 
@@ -56,13 +57,17 @@ api
   .getAppInfo()
   .then(([cards, user]) => {
     console.log(cards);
-    console.log("User data:", user);
+    console.log("API avatar URL:", user.avatar);
     cards.forEach((item) => {
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
     });
 
-    avatar.src = user.avatar;
+    if (!user.avatar) {
+      avatar.src = avatarImg; // Use API avatar if it exists
+    } else {
+      avatar.src = user.avatar; // Use local avatar if no API avatar
+    }
     profileName.textContent = user.name;
     profileDescription.textContent = user.about;
   })
@@ -96,6 +101,14 @@ const previewModal = document.querySelector("#preview-modal");
 const previewModalImage = previewModal.querySelector(".modal__image");
 const previewModalCaption = previewModal.querySelector(".modal__caption");
 const closeButtons = document.querySelectorAll(".modal__close-btn");
+
+const avatarModalForm = document.forms["edit-avatar-form"];
+const avatarModal = document.querySelector("#edit-avatar-modal");
+const avatarModalButton = document.querySelector(".profile__avatar-btn");
+const avatarInput = avatarModal.querySelector("#profile-avatar-input");
+const avatarSubmitButton = avatarModalForm.querySelector(
+  "#profile-avatar-submit-button"
+);
 
 const modals = document.querySelectorAll(".modal");
 
@@ -169,6 +182,19 @@ function handleAddPostSubmit(evt) {
   disabledButton(addPostSubmitButton, settings);
 }
 
+function handleAvatarSubmit(evt) {
+  evt.preventDefault();
+  console.log(avatarInput.value);
+  api
+    .editAvatarInfo(avatarInput.value)
+    .then((data) => {
+      avatar.src = data.avatar;
+      closeModal(avatarModal);
+      avatarModalForm.reset();
+    })
+    .catch(console.error);
+}
+
 function keyHandler(evt) {
   if (evt.key === "Escape") {
     //Need to find the current opened modal in order to close it.
@@ -208,6 +234,10 @@ addPostButton.addEventListener("click", () => {
   );
 });
 
+avatarModalButton.addEventListener("click", () => {
+  openModal(avatarModal);
+});
+
 closeButtons.forEach((button) => {
   const popup = button.closest(".modal");
   button.addEventListener("click", () => closeModal(popup));
@@ -216,5 +246,6 @@ closeButtons.forEach((button) => {
 
 profileForm.addEventListener("submit", handleEditFormSubmit);
 addPostForm.addEventListener("submit", handleAddPostSubmit);
+avatarModalForm.addEventListener("submit", handleAvatarSubmit);
 
 enableValidation(settings);

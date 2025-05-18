@@ -17,15 +17,21 @@
         <img id="logo-image" alt="Spots logo" class="header__logo" />
       </header>
       <main class="content">
-        <button class="profile__avatar-btn">
-          <img
-            src="<%=require('./images/pencil-light-icon.svg')%>"
-            alt="Pencile icon"
-            class="profile__pencil-icon"
-          />
-        </button>
         <section class="profile page__section">
-          <img id="avatar-image" alt="Bessie Colman" class="profile__avatar" />
+          <div class="profile__avatar-container">
+            <button class="profile__avatar-btn">
+              <img
+                src="<%=require('./images/pencil-light-icon.svg')%>"
+                alt="Pencile icon"
+                class="profile__pencil-icon"
+              />
+            </button>
+            <img
+              id="avatar-image"
+              alt="Bessie Colman"
+              class="profile__avatar"
+            />
+          </div>
           <div class="profile__column">
             <h1 class="profile__title">Bessie Coleman</h1>
             <p class="profile__description">Civil Aviator</p>
@@ -156,6 +162,38 @@
           <img src="" alt="" class="modal__image" />
           <p class="modal__caption"></p>
         </div>
+      </div>
+    </div>
+    <div id="edit-avatar-modal" class="modal">
+      <div class="modal__container">
+        <button type="button" class="modal__close-btn"></button>
+        <h2 class="modal__title">Edit avatar</h2>
+        <form
+          id="edit-avatar-form"
+          name="edit-avatar"
+          class="modal__form"
+          novalidate
+        >
+          <label for="profile-avatar-input" class="modal__label">
+            Avatar
+            <input
+              id="profile-avatar-input"
+              placeholder="avatar goes here"
+              class="modal__input"
+              name="avatar"
+              type="url"
+              required
+            />
+            <span class="profile-avatar-input-error"></span>
+          </label>
+          <button
+            id="profile-avatar-submit-button"
+            class="modal__submit-btn"
+            type="submit"
+          >
+            Save
+          </button>
+        </form>
       </div>
     </div>
   </body>
