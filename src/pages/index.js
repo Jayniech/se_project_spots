@@ -53,11 +53,12 @@ const api = new Api({
   },
 });
 
+let currentUser;
+
 api
   .getAppInfo()
   .then(([cards, user]) => {
-    console.log(cards);
-    console.log("API avatar URL:", user.avatar);
+    currentUser = user;
     cards.forEach((item) => {
       const cardElement = getCardElement(item);
       cardsList.append(cardElement);
@@ -110,7 +111,45 @@ const avatarSubmitButton = avatarModalForm.querySelector(
   "#profile-avatar-submit-button"
 );
 
+const deleteModal = document.querySelector("#delete-modal");
+const deleteForm = document.forms["delete-form"];
+const deleteCancelButton = deleteModal.querySelector("#delete-cancel-button");
+
 const modals = document.querySelectorAll(".modal");
+
+let selectedCard, selectedCardId;
+
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
+    })
+    .catch(console.error);
+}
+
+function handleDeleteCard(cardElement, cardId) {
+  selectedCard = cardElement;
+  selectedCardId = cardId;
+  openModal(deleteModal);
+}
+
+function handleLike(likeButton, id) {
+  //
+  // 1. check whether card is currently liked or not
+  const isLiked = likeButton.classList.contains("card__like-btn_liked");
+  // 2. call the changeLikeStatus method, passing it the appropriate arguments
+  api
+    .handleLikeStatus(id, !isLiked)
+    .then(() => {
+      likeButton.classList.toggle("card__like-btn_liked");
+    })
+    .catch(console.error);
+  // 3. handle the response (.then and .catch)
+  // 4. in the .then, toggle active class
+}
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -122,17 +161,23 @@ function getCardElement(data) {
   const postLikeButton = cardElement.querySelector(".card__like-btn");
   const postDeleteButton = cardElement.querySelector(".card__delete-btn");
 
+  // TODO - if the card is liked, set the active class on the card
+  console.log("Card data:", data);
+  if (data.isLiked) {
+    postLikeButton.classList.add("card__like-btn_liked");
+  }
+
   cardNameElement.textContent = data.name;
   cardImageElement.src = data.link;
   cardImageElement.alt = data.name;
 
   postLikeButton.addEventListener("click", () => {
-    postLikeButton.classList.toggle("card__like-btn_liked");
+    handleLike(postLikeButton, data._id);
   });
 
-  postDeleteButton.addEventListener("click", () => {
-    cardElement.remove();
-  });
+  postDeleteButton.addEventListener("click", (evt) =>
+    handleDeleteCard(cardElement, data._id)
+  );
 
   cardImageElement.addEventListener("click", () => {
     openModal(previewModal);
@@ -175,11 +220,18 @@ function handleAddPostSubmit(evt) {
     name: addPostCaptionInput.value,
     link: addPostLinkInput.value,
   };
-  const cardElement = getCardElement(inputValues);
-  cardsList.prepend(cardElement);
-  evt.target.reset();
-  closeModal(addPostModal);
-  disabledButton(addPostSubmitButton, settings);
+  api
+    .addCard(inputValues)
+    .then((cardData) => {
+      const cardElement = getCardElement(cardData);
+      cardsList.prepend(cardElement);
+      evt.target.reset();
+      closeModal(addPostModal);
+      disabledButton(addPostSubmitButton, settings);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 function handleAvatarSubmit(evt) {
@@ -244,8 +296,13 @@ closeButtons.forEach((button) => {
 });
 //I really like how this saves so many lines of code.
 
+deleteCancelButton.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
 profileForm.addEventListener("submit", handleEditFormSubmit);
 addPostForm.addEventListener("submit", handleAddPostSubmit);
 avatarModalForm.addEventListener("submit", handleAvatarSubmit);
+deleteForm.addEventListener("submit", handleDeleteSubmit);
 
 enableValidation(settings);
