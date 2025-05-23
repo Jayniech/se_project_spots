@@ -4,8 +4,6 @@ export default class Api {
     this._headers = options.headers;
   }
 
-  // TODO - Create getUserInfo method (different base url)
-
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
@@ -100,8 +98,4 @@ export default class Api {
       return Promise.reject(`Error: ${res.status}`);
     });
   }
-
-  // other methods for working with the API
 }
-
-// export the class

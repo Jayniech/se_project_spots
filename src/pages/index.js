@@ -7,6 +7,7 @@ import "./index.css";
 import avatarImg from "../images/avatar.jpg";
 import logoImg from "../images/logo.svg";
 import Api from "../utils/Api.js";
+import { setButtonText, getSubmitButton } from "../utils/helper.js";
 
 const avatar = document.getElementById("avatar-image");
 const logo = document.getElementById("logo-image");
@@ -75,9 +76,6 @@ const avatarModalForm = document.forms["edit-avatar-form"];
 const avatarModal = document.querySelector("#edit-avatar-modal");
 const avatarModalButton = document.querySelector(".profile__avatar-btn");
 const avatarInput = avatarModal.querySelector("#profile-avatar-input");
-const avatarSubmitButton = avatarModalForm.querySelector(
-  "#profile-avatar-submit-button"
-);
 
 const deleteModal = document.querySelector("#delete-modal");
 const deleteForm = document.forms["delete-form"];
@@ -106,9 +104,9 @@ api
     });
 
     if (!user.avatar) {
-      avatar.src = avatarImg; // Use API avatar if it exists
+      avatar.src = avatarImg;
     } else {
-      avatar.src = user.avatar; // Use local avatar if no API avatar
+      avatar.src = user.avatar;
     }
     profileName.textContent = user.name;
     profileDescription.textContent = user.about;
@@ -117,8 +115,8 @@ api
     console.error(err);
   });
 
-function handleDeleteCard(cardElement, cardId) {
-  selectedCard = cardElement;
+function handleDeleteCard(evt, cardId) {
+  selectedCard = evt.target.closest(".card");
   selectedCardId = cardId;
   openModal(deleteModal);
 }
@@ -156,14 +154,16 @@ function getCardElement(data) {
   });
 
   postDeleteButton.addEventListener("click", (evt) =>
-    handleDeleteCard(cardElement, data._id)
+    handleDeleteCard(evt, data._id)
   );
 
-  cardImageElement.addEventListener("click", () => {
-    openModal(previewModal);
-    previewModalImage.src = data.link;
-    previewModalImage.alt = data.name;
-    previewModalCaption.textContent = data.name;
+  cardsList.addEventListener("click", (evt) => {
+    if (evt.target.classList.contains("card__image")) {
+      openModal(previewModal);
+      previewModalImage.src = evt.target.src;
+      previewModalImage.alt = evt.target.alt;
+      previewModalCaption.textContent = evt.target.alt;
+    }
   });
 
   return cardElement;
@@ -181,6 +181,7 @@ function closeModal(modal) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
+  setButtonText(getSubmitButton(evt), true);
   api
     .editUserInfo({
       name: editModalNameInput.value,
@@ -191,15 +192,20 @@ function handleEditFormSubmit(evt) {
       profileDescription.textContent = data.about;
       closeModal(editModalProfile);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(getSubmitButton(evt), false);
+    });
 }
 
 function handleAddPostSubmit(evt) {
   evt.preventDefault();
+  const form = evt.target;
   const inputValues = {
-    name: addPostCaptionInput.value,
-    link: addPostLinkInput.value,
+    name: form.elements["add-post-caption-input"].value,
+    link: form.elements["add-post-link-input"].value,
   };
+  setButtonText(getSubmitButton(evt), true);
   api
     .addCard(inputValues)
     .then((cardData) => {
@@ -211,11 +217,15 @@ function handleAddPostSubmit(evt) {
     })
     .catch((err) => {
       console.error(err);
+    })
+    .finally(() => {
+      setButtonText(getSubmitButton(evt), false);
     });
 }
 
 function handleAvatarSubmit(evt) {
   evt.preventDefault();
+  setButtonText(getSubmitButton(evt), true);
   api
     .editAvatarInfo(avatarInput.value)
     .then((data) => {
@@ -223,18 +233,25 @@ function handleAvatarSubmit(evt) {
       closeModal(avatarModal);
       avatarModalForm.reset();
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(getSubmitButton(evt), false);
+    });
 }
 
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+  setButtonText(getSubmitButton(evt), true, "Delete", "Deleting...");
   api
     .deleteCard(selectedCardId)
     .then(() => {
       selectedCard.remove();
       closeModal(deleteModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(getSubmitButton(evt), false, "Delete", "Deleting...");
+    });
 }
 
 function keyHandler(evt) {
