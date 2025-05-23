@@ -5,7 +5,6 @@ import {
 } from "../scripts/validation.js";
 import "./index.css";
 import avatarImg from "../images/avatar.jpg";
-console.log("Local avatar path:", avatarImg);
 import logoImg from "../images/logo.svg";
 import Api from "../utils/Api.js";
 
@@ -44,37 +43,6 @@ logo.src = logoImg;
 //    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
 //  },
 // ];
-
-const api = new Api({
-  baseUrl: "https://around-api.en.tripleten-services.com/v1",
-  headers: {
-    authorization: "3a91e644-a6d3-4fc6-a8f2-7fb2773395d1",
-    "Content-Type": "application/json",
-  },
-});
-
-let currentUser;
-
-api
-  .getAppInfo()
-  .then(([cards, user]) => {
-    currentUser = user;
-    cards.forEach((item) => {
-      const cardElement = getCardElement(item);
-      cardsList.append(cardElement);
-    });
-
-    if (!user.avatar) {
-      avatar.src = avatarImg; // Use API avatar if it exists
-    } else {
-      avatar.src = user.avatar; // Use local avatar if no API avatar
-    }
-    profileName.textContent = user.name;
-    profileDescription.textContent = user.about;
-  })
-  .catch((err) => {
-    console.error(err);
-  });
 
 const profileEditButton = document.querySelector(".profile__edit-btn");
 const profileName = document.querySelector(".profile__title");
@@ -118,17 +86,36 @@ const deleteCancelButton = deleteModal.querySelector("#delete-cancel-button");
 const modals = document.querySelectorAll(".modal");
 
 let selectedCard, selectedCardId;
+let currentUser;
 
-function handleDeleteSubmit(evt) {
-  evt.preventDefault();
-  api
-    .deleteCard(selectedCardId)
-    .then(() => {
-      selectedCard.remove();
-      closeModal(deleteModal);
-    })
-    .catch(console.error);
-}
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "3a91e644-a6d3-4fc6-a8f2-7fb2773395d1",
+    "Content-Type": "application/json",
+  },
+});
+
+api
+  .getAppInfo()
+  .then(([cards, user]) => {
+    currentUser = user;
+    cards.forEach((item) => {
+      const cardElement = getCardElement(item);
+      cardsList.append(cardElement);
+    });
+
+    if (!user.avatar) {
+      avatar.src = avatarImg; // Use API avatar if it exists
+    } else {
+      avatar.src = user.avatar; // Use local avatar if no API avatar
+    }
+    profileName.textContent = user.name;
+    profileDescription.textContent = user.about;
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 function handleDeleteCard(cardElement, cardId) {
   selectedCard = cardElement;
@@ -137,18 +124,13 @@ function handleDeleteCard(cardElement, cardId) {
 }
 
 function handleLike(likeButton, id) {
-  //
-  // 1. check whether card is currently liked or not
   const isLiked = likeButton.classList.contains("card__like-btn_liked");
-  // 2. call the changeLikeStatus method, passing it the appropriate arguments
   api
     .handleLikeStatus(id, !isLiked)
     .then(() => {
       likeButton.classList.toggle("card__like-btn_liked");
     })
     .catch(console.error);
-  // 3. handle the response (.then and .catch)
-  // 4. in the .then, toggle active class
 }
 
 function getCardElement(data) {
@@ -161,8 +143,6 @@ function getCardElement(data) {
   const postLikeButton = cardElement.querySelector(".card__like-btn");
   const postDeleteButton = cardElement.querySelector(".card__delete-btn");
 
-  // TODO - if the card is liked, set the active class on the card
-  console.log("Card data:", data);
   if (data.isLiked) {
     postLikeButton.classList.add("card__like-btn_liked");
   }
@@ -236,13 +216,23 @@ function handleAddPostSubmit(evt) {
 
 function handleAvatarSubmit(evt) {
   evt.preventDefault();
-  console.log(avatarInput.value);
   api
     .editAvatarInfo(avatarInput.value)
     .then((data) => {
       avatar.src = data.avatar;
       closeModal(avatarModal);
       avatarModalForm.reset();
+    })
+    .catch(console.error);
+}
+
+function handleDeleteSubmit(evt) {
+  evt.preventDefault();
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      closeModal(deleteModal);
     })
     .catch(console.error);
 }
