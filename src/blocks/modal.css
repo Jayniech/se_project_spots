@@ -1,4 +1,5 @@
 .modal {
+  font-family: "Poppins", Arial, sans-serif;
   position: fixed;
   top: 0;
   left: 0;
@@ -48,6 +49,10 @@
   max-width: fit-content;
 }
 
+.modal__container_type_delete-card {
+  padding: 32px 20px;
+}
+
 .modal__close-btn {
   position: absolute;
   top: 32px;
@@ -61,6 +66,7 @@
   background-color: #fff;
   opacity: 0.4;
   transition: opacity 0.35s;
+  padding: 0;
 }
 
 .modal__close-btn_type_preview {
@@ -68,9 +74,15 @@
   background-color: transparent;
   top: 0;
   right: -62.57px;
-  width: 40px;
-  height: 40px;
   opacity: 1;
+}
+
+.modal__close-btn_type_delete {
+  background-image: url(../images/close-icon_light.svg);
+  opacity: 1;
+  top: 0;
+  right: -62px;
+  background-color: transparent;
 }
 
 .modal__close-btn:hover {
@@ -87,6 +99,12 @@
   font-size: 32px;
   line-height: 1;
   font-weight: 500;
+  padding-bottom: 2px;
+}
+
+.modal__title_type_delete {
+  text-align: center;
+  font-size: 24px;
 }
 
 .modal__caption {
@@ -153,6 +171,45 @@
   cursor: not-allowed;
 }
 
+.modal__delete-btns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.modal__submit-btn_type_delete {
+  padding: 16px 0;
+  background-color: #ff6565;
+  color: #212121;
+  width: 156px;
+  transition: background-color 0.35s;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0%;
+}
+
+.modal__submit-btn_type_delete:hover {
+  background-color: #ff3333;
+}
+
+.modal__submit-btn_type_cancel {
+  background-color: transparent;
+  color: #212121;
+  border: 1px solid;
+  width: 156px;
+  transition: background-color 0.35s, color 0.35s;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0%;
+}
+
+.modal__submit-btn_type_cancel:hover {
+  background-color: #212121;
+  color: #fff;
+}
+
 @media screen and (max-width: 627px) {
   .modal {
     padding: 0 10px;
@@ -198,7 +255,25 @@
     top: -48px;
   }
 
+  .modal__close-btn_type_delete {
+    top: -48px;
+    right: 6px;
+  }
+
   .modal__label {
     margin-bottom: 24px;
+  }
+
+  .modal__title_type_delete {
+    font-size: 20px;
+    line-height: 1.2;
+    margin: 0 0 20px;
+  }
+
+  .modal__delete-btns {
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
   }
 }

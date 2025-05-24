@@ -26,7 +26,6 @@ const hideInputError = (formElement, inputElement, config) => {
 };
 
 const checkInputValidity = (formElement, inputElement, config) => {
-  console.log(inputElement.validationMessage);
   if (!inputElement.validity.valid) {
     showInputError(
       formElement,
@@ -53,7 +52,7 @@ const toggleButtonState = (inputList, buttonElement, config) => {
   }
 };
 
-const disabledButton = (buttonElement, config) => {
+export const disabledButton = (buttonElement, config) => {
   buttonElement.disabled = true;
   buttonElement.classList.add(config.inactiveButtonClass);
 };
@@ -63,8 +62,7 @@ const activeButton = (buttonElement, config) => {
   buttonElement.classList.remove(config.inactiveButtonClass);
 };
 
-const resetValidation = (formElement, inputList, config) => {
-  console.log("Reset function is running!");
+export const resetValidation = (formElement, inputList, config) => {
   inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
   const buttonElement = formElement.querySelector(config.submitButtonSelector);
   inputList.forEach((input) => {
