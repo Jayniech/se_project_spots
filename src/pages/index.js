@@ -2,6 +2,7 @@ import {
   enableValidation,
   settings,
   resetValidation,
+  disabledButton,
 } from "../scripts/validation.js";
 import "./index.css";
 import avatarImg from "../images/avatar.jpg";
